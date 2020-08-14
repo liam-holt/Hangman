@@ -22,7 +22,8 @@ bool CheckGuess(const string&, const string&);
 string ModifyWord(const string&, string, const string&);
 bool Replay();
 
-int main() {
+int main()
+{
     char hangedMan[height][width]; //game display
     int harm; //number of pieces to draw of the hanged man
     string word; //the word to guess for the round
@@ -35,7 +36,8 @@ int main() {
     int numGuess; //iterator for guesses array
 
     //game loop
-    do {
+    do
+    {
         //reset to initial conditions
         InitializeHangman(hangedMan);
         harm = noHarm;
@@ -45,12 +47,14 @@ int main() {
         isVictory = false;
         numGuess = 0;
 
-        for (auto & i : guesses) {
+        for (auto & i : guesses)
+        {
             i = "";
         }
 
         //round loop
-        while (harm < roundOver && ! isVictory) {
+        while (harm < roundOver && ! isVictory)
+        {
             //print display
             PrintHangman(hangedMan, harm);
             PrintWord(hiddenWord);
@@ -63,9 +67,12 @@ int main() {
             //check if guess in word
             isInWord = CheckGuess(guess, word);
 
-            if (! isInWord) {
+            if (! isInWord)
+            {
                 ++harm;
-            } else {
+            }
+            else
+            {
                 hiddenWord = ModifyWord(word, hiddenWord, guess);
                 isVictory = CheckVictory(hiddenWord);
             }
@@ -85,17 +92,19 @@ int main() {
 }
 // Input: empty 2D array
 // Output: Draws the gallows
-void InitializeHangman(char hangedMan[height][width]) {
+void InitializeHangman(char hangedMan[height][width])
+{
     //builds 2D array of all '_'
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j){
+    for (int i = 0; i < height; ++i)
+    {
+        for (int j = 0; j < width; ++j)
+        {
             hangedMan[i][j] = ' ';
         }
     }
-
-
     // Flavor text
-    if (width / 2 >= 20) {
+    if (width / 2 >= 20)
+    {
         hangedMan[0][0] = 'L';
         hangedMan[0][1] = 'e';
         hangedMan[0][2] = 't';
@@ -115,7 +124,8 @@ void InitializeHangman(char hangedMan[height][width]) {
         hangedMan[0][16] = 'a';
         hangedMan[0][17] = 'n';
     }
-    else if (width / 2 > 10){
+    else if (width / 2 > 10)
+    {
         hangedMan[0][0] = 'L';
         hangedMan[0][1] = 'e';
         hangedMan[0][2] = 't';
@@ -135,8 +145,8 @@ void InitializeHangman(char hangedMan[height][width]) {
         hangedMan[1][6] = 'a';
         hangedMan[1][7] = 'n';
     }
-
-    else{
+    else
+    {
         hangedMan[0][0] = 'L';
         hangedMan[0][1] = 'e';
         hangedMan[0][2] = 't';
@@ -156,32 +166,31 @@ void InitializeHangman(char hangedMan[height][width]) {
         hangedMan[3][1] = 'a';
         hangedMan[3][2] = 'n';
     }
-
     //builds gallows' base
-    for (int j = 0; j < width; ++j) {
+    for (int j = 0; j < width; ++j)
+    {
         hangedMan[height - 1][j] = '=';
         hangedMan[height - 2][j] = '=';
     }
-
     //gallows' pole
-    for (int i = 0; i < height - 2; ++i) {
+    for (int i = 0; i < height - 2; ++i)
+    {
         hangedMan[i][width - width / 8] = '|';
         hangedMan[i][width - width / 8 - 1] = '|';
     }
-
     //gallows' branch
-    for (int j = width - width/3; j < width - width/10; ++j) {
+    for (int j = width - width/3; j < width - width/10; ++j)
+    {
         hangedMan[0][j] = '=';
     }
-
     //noose
     hangedMan[1][width - width/3 + 2] = '|';
 }
 
 //Input: The 2D array from InitializeHangedMan()
 //Output: adds a hanging man, piece by piece based on harm done to him
-void PrintHangman(char hangedMan[height][width], const int& harm) {
-
+void PrintHangman(char hangedMan[height][width], const int& harm)
+{
     //draws current pieces of hanged man
     switch (harm) {
         case roundOver:
@@ -202,28 +211,35 @@ void PrintHangman(char hangedMan[height][width], const int& harm) {
     }
 
     // prints the current status of the hanged man
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
+    for (int i = 0; i < height; ++i)
+    {
+        for (int j = 0; j < width; ++j)
+        {
             cout << hangedMan[i][j];
         }
         cout << endl;
     }
 }
 //Output : a word. No spaces, no numbers, no symbols, all lowercase
-string InputWord() {
+string InputWord()
+{
     string word;
     bool isValid;
-    do {
+    do
+    {
         isValid = true;
         cout << "Please enter a word: \n";
         getline(cin, word);
 
-        for (char i : word) {
-            if (tolower(i) < a || tolower(i) > z) {
+        for (char i : word)
+        {
+            if (tolower(i) < a || tolower(i) > z)
+            {
                 isValid = false;
             }
         }
-        if (! isValid) {
+        if (! isValid)
+        {
             cout << "Invalid Word. \n";
         }
     } while(! isValid);
@@ -233,20 +249,23 @@ string InputWord() {
 
 //Input: The word from InputWord()
 //Output: Makes a string the same length as the input word, but entirely '_'
-string MakeHiddenWord (const string& word) {
+string MakeHiddenWord (const string& word)
+{
     string hiddenWord = word;
 
-    for (char & i : hiddenWord) {
+    for (char & i : hiddenWord)
+    {
         i = '_';
     }
-
     return hiddenWord;
 }
 
 //Input: A string
 //Output: A string separated by spaces
-void PrintWord(const string& word) {
-    for (char i : word) {
+void PrintWord(const string& word)
+{
+    for (char i : word)
+    {
         cout << i << ' ';
     }
     cout << endl;
@@ -254,11 +273,14 @@ void PrintWord(const string& word) {
 
 //Input: The hiddenWord (that started as all '_')
 //Output: A boolean, true if there are no '_' left
-bool CheckVictory(const string& word) {
+bool CheckVictory(const string& word)
+{
     bool isVictory = true;
 
-    for (char i : word) {
-        if (i == '_') {
+    for (char i : word)
+    {
+        if (i == '_')
+        {
             isVictory = false;
         }
     }
@@ -266,22 +288,28 @@ bool CheckVictory(const string& word) {
 }
 
 //Output: A letter, lowercase
-string GetGuess(string guesses[26]) {
+string GetGuess(string guesses[maxGuesses])
+{
     string guess;
     bool isGuessed;
 
-    do {
+    do
+    {
         isGuessed = false;
         cout << "Guess a letter: \n";
         getline(cin, guess);
 
-        for (char & i : guess) {
+        for (char & i : guess)
+        {
             i = tolower(i);
         }
 
-        if (guess.length() == 1 && !(guess[0] < a || guess[0] > z)) {
-            for (int i = 0; i < 26; ++i) {
-                if (guess == guesses[i]) {
+        if (guess.length() == 1 && !(guess[0] < a || guess[0] > z))
+        {
+            for (int i = 0; i < maxGuesses; ++i)
+            {
+                if (guess == guesses[i])
+                {
                     isGuessed = true;
                     cout << "You've already guessed " << guess << endl;
                 }
@@ -297,38 +325,45 @@ string GetGuess(string guesses[26]) {
 
 //Input: a lower case letter, and the word chosen at start
 //Output: a boolean, true if the letter is in the word
-bool CheckGuess(const string& guess, const string& word) {
-    for (char i : word) {
-        if (tolower(i) == tolower(guess[0])) {
+bool CheckGuess(const string& guess, const string& word)
+{
+    for (char i : word)
+    {
+        if (tolower(i) == tolower(guess[0]))
+        {
             return true;
         }
     }
-
     return false;
 }
 
 //Input: a letter, the word chosen at start, and it's hidden version ('_')
 //Output: Any of the letter found in the word will be revealed in the hidden word
-string ModifyWord(string const& word,string hiddenWord, const string& guess) {
-    for (int i = 0; i < word.length(); ++i) {
-        if (tolower(word[i]) == tolower(guess[0])) {
+string ModifyWord(string const& word,string hiddenWord, const string& guess)
+{
+    for (int i = 0; i < word.length(); ++i)
+    {
+        if (tolower(word[i]) == tolower(guess[0]))
+        {
             hiddenWord[i] = word[i];
         }
     }
     return hiddenWord;
-
 }
 
 
 //Output: a boolean, true is the user wants to replay
-bool Replay() {
+bool Replay()
+{
     string replay;
 
-    do {
+    do
+    {
         cout << "Would you like to play again? (y/n) \n";
         getline(cin, replay);
 
-        for (char & i : replay) {
+        for (char & i : replay)
+        {
             i = tolower(i);
         }
 
